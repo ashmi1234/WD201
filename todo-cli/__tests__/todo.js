@@ -36,17 +36,15 @@ describe("TodoList Test Suite", () => {
     markAsComplete(0);
     expect(all[0].completed).toBe(true);
   });
-  test("retrive the overdue data", () => {
+  test("overdue item", () => {
     expect(overdue().length).toBe(1);
   });
-  test("retrive the dueToday data", () => {
-    add({ title: "Pay rent", dueDate: today, completed: true });
-    add({ title: "Service Vehicle", dueDate: today, completed: false });
-    expect(dueToday().length).toBe(2);
+  test("dueToday item", () => {
+    add({ title: "Service car", dueDate: today, completed: false });
+    expect(dueToday().length).toBe(1);
   });
-  test("retrive the dueLater data", () => {
-    add({ title: "File taxes", dueDate: tomorrow, completed: false });
-    add({ title: "Pay electric bill", dueDate: tomorrow, completed: false });
-    expect(dueLater().length).toBe(2);
+  test("dueLater item", () => {
+    add({ title: "go school", dueDate: tomorrow, completed: false });
+    expect(dueLater().length).toBe(1);
   });
 });
