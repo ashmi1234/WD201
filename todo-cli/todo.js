@@ -7,25 +7,27 @@ const todoList = () => {
     all[index].completed = true;
   };
 
+let today = new Date().toLocaleDateString("en-CA");
+  
   const overdue = () => {
-    const aa = all.filter(
-      (item) => item.dueDate.split("-")[2] < new Date().getDate()
+    const overdue_item = all.filter(
+      (item) => item.dueDate < today
     );
-    return aa;
+    return overdue_item;
   };
 
   const dueToday = () => {
-    const bb = all.filter(
-      (item) => item.dueDate.split("-")[2] === String(new Date().getDate())
+    const duelate_item = all.filter(
+      (item) => item.dueDate === today
     );
-    return bb;
+    return duelate_item;
   };
 
   const dueLater = () => {
-    const bb = all.filter(
-      (item) => item.dueDate.split("-")[2] > new Date().getDate()
+    const duelater_item = all.filter(
+      (item) => item.dueDate > today
     );
-    return bb;
+    return duelater_item;
   };
 
   const toDisplayableList = (list) => {
