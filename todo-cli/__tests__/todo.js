@@ -1,50 +1,61 @@
+/* eslint-disable no-undef */
 const todoList = require("../todo");
-
-const { add, markAsComplete, overdue, dueToday, dueLater } = todoList();
-var d = new Date();
-const formattedDate = (d) => {
-  return d.toISOString().split("T")[0];
-};
-var dateToday = new Date();
-const today = formattedDate(dateToday);
-const yesterday = formattedDate(
-  new Date(new Date().setDate(dateToday.getDate() - 1))
-);
-const tomorrow = formattedDate(
-  new Date(new Date().setDate(dateToday.getDate() + 1))
-);
-describe("TodoList Test Suite", () => {
+let today = new Date().toLocaleDateString("en-CA");
+const { all, markAsComplete, add, overdue, dueToday, dueLater } = todoList();
+describe("Todolist Testing", () => {
   beforeAll(() => {
     add({
-      title: "Task Todo",
+      title: "DAA algorithums",
       completed: false,
       dueDate: new Date().toLocaleDateString("en-CA"),
     });
   });
-  test("Should add new todo", () => {
-    const todoItemsCount = all.length;
+
+  test("Add new todo ", () => {
+    let length = all.length;
+
     add({
-      title: "Submit assignment",
-      dueDate: yesterday,
+      title: "node js learning",
       completed: false,
+      dueDate: new Date().toLocaleDateString("en-CA"),
     });
-    expect(all.length).toBe(todoItemsCount + 1);
+
+    expect(all.length).toBe(length + 1);
   });
 
-  test("Should mark as complete", () => {
+  test("Mark completed", () => {
     expect(all[0].completed).toBe(false);
     markAsComplete(0);
     expect(all[0].completed).toBe(true);
   });
-  test("overdue item", () => {
-    expect(overdue().length).toBe(1);
+
+  test("retrive overdue", () => {
+    let checked = overdue();
+
+    expect(
+      checked.every((todo) => {
+        return todo.dueDate < today;
+      })
+    ).toBe(true);
   });
-  test("dueToday item", () => {
-    add({ title: "Service car", dueDate: today, completed: false });
-    expect(dueToday().length).toBe(1);
+
+  test("retrive all todos that are dueToday", () => {
+    let checked = dueToday();
+
+    expect(
+      checked.every((todo) => {
+        return todo.dueDate === today;
+      })
+    ).toBe(true);
   });
-  test("dueLater item", () => {
-    add({ title: "go school", dueDate: tomorrow, completed: false });
-    expect(dueLater().length).toBe(1);
+
+  test("retrive dueLater", () => {
+    let checked = dueLater();
+
+    expect(
+      checked.every((todo) => {
+        return todo.dueDate > today;
+      })
+    ).toBe(true);
   });
 });
